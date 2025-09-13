@@ -144,5 +144,27 @@ public partial class ListaProduto : ContentPage
         }
     }
 
-    
+    private async void txt_search_categoria_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        try
+        {
+            string q2 = e.NewTextValue;
+
+            lst_produtos.IsRefreshing = true;
+
+            lista.Clear();
+
+            List<Produto> tmp = await App.Db.Search2(q2);
+
+            tmp.ForEach(i => lista.Add(i));
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Ops", ex.Message, "OK");
+        }
+        finally
+        {
+            lst_produtos.IsRefreshing = false;
+        }
+    }
 }
